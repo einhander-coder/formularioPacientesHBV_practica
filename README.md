@@ -68,7 +68,7 @@ Sistema web para gestión de pacientes desarrollado con CodeIgniter 4, Bootstrap
 
 
 3. TECNOLOGÍAS USADAS:
-Backend: CodeIgniter 4 (PHP 8.1+)
+Backend: CodeIgniter 4 (PHP 8.2+)
 
 Frontend: Bootstrap 5 + JavaScript
 
