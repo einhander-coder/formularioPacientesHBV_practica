@@ -104,8 +104,8 @@ cd hbvformularioPrueba
 
 5. Configuración Base de Datos ( config_bdHBV.sql)
 
-CREATE DATABASE IF NOT EXISTS hbv_pruebaformulario;
-USE hbv_pruebaformulario;
+CREATE DATABASE IF NOT EXISTS pacientes_db; // Act. ruta de BD MYSQL
+USE pacientes_db;
 
 CREATE TABLE pacientes (
     id INT AUTO_INCREMENT PRIMARY KEY,
