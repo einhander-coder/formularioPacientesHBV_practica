@@ -18,6 +18,8 @@ desarrollo, guias de estilo, base de datos y adicionales asociados para su entre
 
 AVISO: Cualquier tipo de replicación, plagio o copia legible de este comprimido sin permiso o cita del autor, esta previamente sujeto a delitos o penas incurridas acorde a la ley 17.336 de Propiedad Intelectual.
 
+Este repositorio pueden solo ingresar los evaluadores autorizados a hacer uso de la totalidad del codigo fuente y sus partes.
+
 
 -----------------------------------------------------------------------
 
