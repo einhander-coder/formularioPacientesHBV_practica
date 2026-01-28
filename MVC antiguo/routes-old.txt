@@ -1,0 +1,18 @@
+$routes->get('/', 'Home::index');
+$routes->get('pacientes/crear', 'Pacientes::crear');
+$routes->post('pacientes/guardar', 'Pacientes::guardar');
+
+----
+
+Home
+
+-<?php
+namespace App\Controllers;
+
+class Home extends BaseController
+{
+    public function index(): string
+    {
+        return view('index');
+    }
+}

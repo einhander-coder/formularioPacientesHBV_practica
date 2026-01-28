@@ -1,0 +1,151 @@
+<?php
+
+namespace App\Controllers;
+
+use App\Models\PacienteModel;
+
+class Pacientes extends BaseController
+{
+    protected $pacienteModel;
+    
+    public function __construct()
+    {
+        $this->pacienteModel = new PacienteModel();
+        helper('form');
+    }
+    
+    // Listar todos los pacientes
+    public function index()
+    {
+        $data = [
+            'titulo' => 'Lista de Pacientes',
+            'pacientes' => $this->pacienteModel->findAll()
+        ];
+        
+        return view('pacientes/index', $data);
+    }
+    
+    // Mostrar formulario de creación
+    public function crear()
+    {
+        $data = [
+            'titulo' => 'Nuevo Paciente'
+        ];
+        
+        return view('pacientes/crear', $data);
+    }
+    
+    // Guardar nuevo paciente
+    public function guardar()
+    {
+        // Validar datos
+        if (!$this->validate($this->pacienteModel->validationRules, $this->pacienteModel->validationMessages)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+        
+        // Preparar datos
+        $datos = [
+            'nombre' => $this->request->getPost('nombre'),
+            'apellido' => $this->request->getPost('apellido'),
+            'fecha_nacimiento' => $this->request->getPost('fecha_nacimiento'),
+            'genero' => $this->request->getPost('genero'),
+            'tipo_documento' => $this->request->getPost('tipo_documento'),
+            'numero_documento' => $this->request->getPost('numero_documento'),
+            'telefono' => $this->request->getPost('telefono'),
+            'email' => $this->request->getPost('email'),
+            'direccion' => $this->request->getPost('direccion'),
+            'tipo_sangre' => $this->request->getPost('tipo_sangre'),
+            'alergias' => $this->request->getPost('alergias'),
+            'historial_medico' => $this->request->getPost('historial_medico'),
+            'medicamentos' => $this->request->getPost('medicamentos'),
+            'contacto_emergencia_nombre' => $this->request->getPost('contacto_emergencia_nombre'),
+            'contacto_emergencia_telefono' => $this->request->getPost('contacto_emergencia_telefono'),
+            'contacto_emergencia_parentesco' => $this->request->getPost('contacto_emergencia_parentesco')
+        ];
+        
+        // Guardar en la base de datos
+        if ($this->pacienteModel->save($datos)) {
+            return redirect()->to(site_url('pacientes'))->with('success', 'Paciente registrado exitosamente');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Error al guardar el paciente');
+        }
+    }
+    
+    // Mostrar detalles de un paciente
+    public function mostrar($id)
+    {
+        $paciente = $this->pacienteModel->find($id);
+        
+        if (!$paciente) {
+            return redirect()->to(site_url('pacientes'))->with('error', 'Paciente no encontrado');
+        }
+        
+        $data = [
+            'titulo' => 'Detalles del Paciente',
+            'paciente' => $paciente
+        ];
+        
+        return view('pacientes/mostrar', $data);
+    }
+    
+    // Editar paciente
+    public function editar($id)
+    {
+        $paciente = $this->pacienteModel->find($id);
+        
+        if (!$paciente) {
+            return redirect()->to(site_url('pacientes'))->with('error', 'Paciente no encontrado');
+        }
+        
+        $data = [
+            'titulo' => 'Editar Paciente',
+            'paciente' => $paciente
+        ];
+        
+        return view('pacientes/editar', $data);
+    }
+    
+    // Actualizar paciente
+    public function actualizar($id)
+    {
+        if (!$this->validate($this->pacienteModel->validationRules, $this->pacienteModel->validationMessages)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+        
+        $datos = [
+            'id' => $id,
+            'nombre' => $this->request->getPost('nombre'),
+            'apellido' => $this->request->getPost('apellido'),
+            'fecha_nacimiento' => $this->request->getPost('fecha_nacimiento'),
+            'genero' => $this->request->getPost('genero'),
+            'tipo_documento' => $this->request->getPost('tipo_documento'),
+            'numero_documento' => $this->request->getPost('numero_documento'),
+            'telefono' => $this->request->getPost('telefono'),
+            'email' => $this->request->getPost('email'),
+            'direccion' => $this->request->getPost('direccion'),
+            'tipo_sangre' => $this->request->getPost('tipo_sangre'),
+            'alergias' => $this->request->getPost('alergias'),
+            'historial_medico' => $this->request->getPost('historial_medico'),
+            'medicamentos' => $this->request->getPost('medicamentos'),
+            'contacto_emergencia_nombre' => $this->request->getPost('contacto_emergencia_nombre'),
+            'contacto_emergencia_telefono' => $this->request->getPost('contacto_emergencia_telefono'),
+            'contacto_emergencia_parentesco' => $this->request->getPost('contacto_emergencia_parentesco')
+        ];
+        
+        if ($this->pacienteModel->save($datos)) {
+            return redirect()->to(site_url('pacientes'))->with('success', 'Paciente actualizado exitosamente');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Error al actualizar el paciente');
+        }
+    }
+    
+    // Eliminar paciente
+    public function eliminar($id)
+    {
+        if ($this->pacienteModel->delete($id)) {
+            return redirect()->to(site_url('pacientes'))->with('success', 'Paciente eliminado exitosamente');
+        } else {
+            return redirect()->to(site_url('pacientes'))->with('error', 'Error al eliminar el paciente');
+        }
+    }
+}

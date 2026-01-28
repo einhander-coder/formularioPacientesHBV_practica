@@ -1,0 +1,164 @@
+<?php
+
+namespace App\Controllers;
+
+use App\Models\PacienteModel;
+
+class Pacientes extends BaseController
+{
+    public function index()
+    {
+        $model = new PacienteModel();
+        
+        // Obtener parámetros de búsqueda
+        $search = $this->request->getGet('search');
+        $generoFilter = $this->request->getGet('genero');
+        $fechaFilter = $this->request->getGet('fecha_registro');
+        
+        // Construir consulta
+        $query = $model;
+        
+        if (!empty($search)) {
+            $query = $query->groupStart()
+                ->like('nombre', $search)
+                ->orLike('apellido', $search)
+                ->orLike('telefono', $search)
+                ->orLike('email', $search)
+                ->groupEnd();
+        }
+        
+        if (!empty($generoFilter)) {
+            $query = $query->where('genero', $generoFilter);
+        }
+        
+        if (!empty($fechaFilter)) {
+            $query = $query->where('DATE(fecha_registro)', $fechaFilter);
+        }
+        
+        // Configurar paginación
+        $perPage = 10;
+        $data['pacientes'] = $query->orderBy('id', 'DESC')->paginate($perPage);
+        $data['pager'] = $model->pager;
+        
+        // Estadísticas
+        $data['totalPacientes'] = $model->countAll();
+        $data['hombres'] = $model->where('genero', 'Masculino')->countAllResults();
+        $data['mujeres'] = $model->where('genero', 'Femenino')->countAllResults();
+        $data['registrosHoy'] = $model->where('DATE(fecha_registro)', date('Y-m-d'))->countAllResults();
+        
+        return view('pacientes/listar', $data);
+    }
+    
+    public function crear()
+    {
+        return view('pacientes/crear');
+    }
+    
+    public function guardar()
+    {
+        // Reglas de validación
+        $rules = [
+            'nombre' => 'required|min_length[3]|max_length[50]',
+            'apellido' => 'required|min_length[3]|max_length[50]',
+            'fecha_nacimiento' => 'required|valid_date',
+            'genero' => 'required|in_list[Masculino,Femenino,Otro]',
+            'telefono' => 'required|min_length[8]|max_length[20]',
+            'email' => 'permit_empty|valid_email',
+            'direccion' => 'permit_empty|max_length[255]'
+        ];
+        
+        if (!$this->validate($rules)) {
+            return redirect()->back()
+                ->withInput()
+                ->with('errors', $this->validator->getErrors());
+        }
+        
+        // Preparar datos
+        $data = $this->request->getPost();
+        $data['fecha_registro'] = date('Y-m-d H:i:s');
+        
+        // Guardar en BD
+        $model = new PacienteModel();
+        $model->save($data);
+        
+        return redirect()->to('/pacientes')
+            ->with('success', 'Paciente registrado exitosamente');
+    }
+    
+    public function editar($id)
+    {
+        $model = new PacienteModel();
+        $data['paciente'] = $model->find($id);
+        
+        if (!$data['paciente']) {
+            return redirect()->to('/pacientes')
+                ->with('error', 'Paciente no encontrado');
+        }
+        
+        return view('pacientes/editar', $data);
+    }
+    
+    public function actualizar($id)
+    {
+        $model = new PacienteModel();
+        
+        // Verificar que el paciente existe
+        if (!$model->find($id)) {
+            return redirect()->to('/pacientes')
+                ->with('error', 'Paciente no encontrado');
+        }
+        
+        // Reglas de validación
+        $rules = [
+            'nombre' => 'required|min_length[3]|max_length[50]',
+            'apellido' => 'required|min_length[3]|max_length[50]',
+            'fecha_nacimiento' => 'required|valid_date',
+            'genero' => 'required|in_list[Masculino,Femenino,Otro]',
+            'telefono' => 'required|min_length[8]|max_length[20]',
+            'email' => 'permit_empty|valid_email',
+            'direccion' => 'permit_empty|max_length[255]'
+        ];
+        
+        if (!$this->validate($rules)) {
+            return redirect()->back()
+                ->withInput()
+                ->with('errors', $this->validator->getErrors());
+        }
+        
+        // Actualizar datos
+        $data = $this->request->getPost();
+        $model->update($id, $data);
+        
+        return redirect()->to('/pacientes')
+            ->with('success', 'Paciente actualizado exitosamente');
+    }
+    
+    public function eliminar($id)
+    {
+        $model = new PacienteModel();
+        
+        if ($model->delete($id)) {
+            return redirect()->to('/pacientes')
+                ->with('success', 'Paciente eliminado exitosamente');
+        }
+        
+        return redirect()->to('/pacientes')
+            ->with('error', 'Error al eliminar el paciente');
+    }
+}
+
+
+---------
+
+model
+
+<?php
+
+namespace App\Models;
+use CodeIgniter\Model;
+
+class PacienteModel extends Model {
+    protected $table = 'pacientes';
+    protected $allowedFields = ['nombre', 'apellido', 'fecha_nacimiento', 'genero', 'telefono', 'email', 'direccion', 'historial'];
+}
+?>

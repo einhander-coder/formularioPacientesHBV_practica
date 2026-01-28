@@ -1,0 +1,235 @@
+<?= $this->extend('layouts/header') ?>
+
+<?= $this->section('styles') ?>
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #0d6efd 0%, #198754 100%);
+        border-radius: 20px;
+        overflow: hidden;
+        color: white;
+        padding: 80px 40px;
+        margin-bottom: 60px;
+        position: relative;
+    }
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('<?= base_url('images/medical-pattern.png') ?>') repeat;
+        opacity: 0.1;
+    }
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        margin: 0 auto 20px;
+    }
+    .card-hover {
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .card-hover:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+    .quick-stats {
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+</style>
+<?= $this->endSection() ?>
+
+<?= $this->section('content') ?>
+<main class="container py-5">
+    <!-- Hero Section - LO PRIMERO QUE SE VE -->
+    <div class="hero-section text-center">
+        <div class="position-relative">
+            <h1 class="display-4 fw-bold mb-4">
+                <i class="bi bi-heart-pulse me-3"></i>Sistema de Gestión de Pacientes
+            </h1>
+            <p class="lead mb-4 opacity-90">
+                Sistema web desarrollado con <strong>CodeIgniter 4</strong> y <strong>Bootstrap 5</strong><br>
+                para la administración eficiente de información médica.
+            </p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="<?= site_url('pacientes') ?>" class="btn btn-light btn-lg px-4">
+                    <i class="bi bi-people me-2"></i>Ver Pacientes
+                </a>
+                <a href="<?= site_url('pacientes/crear') ?>" class="btn btn-outline-light btn-lg px-4">
+                    <i class="bi bi-person-plus me-2"></i>Nuevo Paciente
+                </a>
+                <a href="<?= site_url('test-db') ?>" class="btn btn-warning btn-lg px-4">
+                    <i class="bi bi-database me-2"></i>Probar Conexión MySQL
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Información técnica del proyecto -->
+    <div class="card quick-stats bg-light shadow-sm mb-5">
+        <div class="card-body">
+            <h4 class="card-title mb-4 text-center">
+                <i class="bi bi-info-circle me-2"></i>Información Técnica del Proyecto
+            </h4>
+            <div class="row text-center">
+                <div class="col-md-3 mb-3">
+                    <div class="display-6 fw-bold text-primary">
+                        <i class="bi bi-file-code"></i>
+                    </div>
+                    <div class="text-muted">CodeIgniter 4</div>
+                    <small>Framework PHP MVC</small>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="display-6 fw-bold text-success">
+                        <i class="bi bi-bootstrap"></i>
+                    </div>
+                    <div class="text-muted">Bootstrap 5</div>
+                    <small>Frontend Responsive</small>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="display-6 fw-bold text-danger">
+                        <i class="bi bi-database"></i>
+                    </div>
+                    <div class="text-muted">MySQL 8.0</div>
+                    <small>Base de Datos</small>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="display-6 fw-bold text-warning">
+                        <i class="bi bi-tools"></i>
+                    </div>
+                    <div class="text-muted">phpMyAdmin</div>
+                    <small>Administración BD</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Características principales -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card card-hover h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="feature-icon bg-primary bg-opacity-10 text-primary">
+                        <i class="bi bi-person-badge"></i>
+                    </div>
+                    <h4 class="card-title mb-3">CRUD Completo</h4>
+                    <p class="card-text text-muted">
+                        Crear, Leer, Actualizar y Eliminar pacientes con validaciones en cliente y servidor.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card card-hover h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="feature-icon bg-success bg-opacity-10 text-success">
+                        <i class="bi bi-search"></i>
+                    </div>
+                    <h4 class="card-title mb-3">Búsqueda Avanzada</h4>
+                    <p class="card-text text-muted">
+                        Filtros por nombre, género, fecha de registro y búsqueda en tiempo real.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card card-hover h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="feature-icon bg-warning bg-opacity-10 text-warning">
+                        <i class="bi bi-bar-chart-line"></i>
+                    </div>
+                    <h4 class="card-title mb-3">Estadísticas</h4>
+                    <p class="card-text text-muted">
+                        Gráficos y reportes de pacientes por género, edad y tipo de sangre.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Acceso rápido -->
+    <div class="row g-4 mb-5">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-lightning-charge me-2"></i>Acceso Rápido
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <a href="<?= site_url('pacientes') ?>" class="btn btn-outline-primary w-100 py-3">
+                                <i class="bi bi-list-ul display-6 d-block mb-2"></i>
+                                Listar Pacientes
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="<?= site_url('pacientes/crear') ?>" class="btn btn-outline-success w-100 py-3">
+                                <i class="bi bi-person-plus display-6 d-block mb-2"></i>
+                                Nuevo Paciente
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="<?= site_url('test-db') ?>" class="btn btn-outline-info w-100 py-3">
+                                <i class="bi bi-database display-6 d-block mb-2"></i>
+                                Probar MySQL
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="http://localhost/phpmyadmin" target="_blank" class="btn btn-outline-warning w-100 py-3">
+                                <i class="bi bi-tools display-6 d-block mb-2"></i>
+                                phpMyAdmin
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Instrucciones de uso -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-light">
+            <h5 class="mb-0">
+                <i class="bi bi-play-circle me-2"></i>¿Cómo Empezar?
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h6 class="text-primary">
+                        <i class="bi bi-1-circle me-2"></i>Primeros Pasos
+                    </h6>
+                    <ol class="text-muted">
+                        <li>Verifica que MySQL esté corriendo en puerto 3306</li>
+                        <li>Accede a phpMyAdmin para crear la base de datos</li>
+                        <li>Configura la conexión en <code>.env</code></li>
+                        <li>Ejecuta <code>php spark serve</code></li>
+                    </ol>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="text-primary">
+                        <i class="bi bi-2-circle me-2"></i>URLs Importantes
+                    </h6>
+                    <ul class="text-muted">
+                        <li><strong>Aplicación:</strong> http://localhost:8080</li>
+                        <li><strong>phpMyAdmin:</strong> http://localhost/phpmyadmin</li>
+                        <li><strong>Lista pacientes:</strong> /pacientes</li>
+                        <li><strong>Test BD:</strong> /test-db</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<?= $this->endSection() ?>
