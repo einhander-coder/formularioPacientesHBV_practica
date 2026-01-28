@@ -48,22 +48,9 @@ app/Views/
 │   ├── crear.php               # Formulario creación
 │   ├── editar.php              # Formulario edición
 │   ├── ver.php                 # Vista detallada individual
-│   └── partials/               # Fragmentos reutilizables
-│       ├── _form.php           # Formulario compartido
-│       ├── _table.php          # Tabla de pacientes
-│       └── _stats.php          # Estadísticas
 │
 ├── 📁 home/                     # PÁGINAS ESTÁTICAS
 │   ├── index.php               # Página de inicio
-│   ├── about.php               # Acerca de
-│   ├── contact.php             # Contacto
-│   ├── help.php                # Ayuda
-│   └── privacy.php             # Política de privacidad
-│
-├── 📁 errors/                   # PÁGINAS DE ERROR
-│   ├── 404.php                 # Error 404
-│   └── 500.php                 # Error 500
-│
 
 # Sistema de Gestión de Pacientes
 
